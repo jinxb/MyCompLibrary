@@ -2,18 +2,17 @@
   <div class="progress-ver">
     <div class="progress-bar">
       <!-- 竖向默认外显百分比，支持自定义文字 -->
-      <span>{{ textInsideTop }}</span>
+      <span class="inside-top" :style="`color:${textInsideColor};`">{{ textInsideTop }}</span><span class="inside-top-suffix">{{ topSuffix }}</span>
       <div class="progress-outer" :style="{width:strokeWidth + 'px'}">
         <div class="progress-inner" :style="innerStyle"></div>
       </div>
-      <span>{{ textInsideBtm }}</span>
+      <span class="inside-btm">{{ textInsideBtm }}</span><span class="inside-btm-suffix">{{ btmSuffix }}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'progressBar',
   props: {
     percentage: {
       // 进度条百分比
@@ -29,12 +28,12 @@ export default {
       type: Number,
       default: 8
     },
-    pType: {
-      // 进度条 横竖
-      type: String,
-      default: 'vertical',
-      validator: val => ['across', 'vertical'].includes(val)
-    },
+    // pType: {
+    //   // 进度条 横竖
+    //   type: String,
+    //   default: 'vertical',
+    //   validator: val => ['across', 'vertical'].includes(val)
+    // },
     pColor: {
       // 进度条颜色
       type: String,
@@ -49,13 +48,29 @@ export default {
       // 横向->后 纵向->下
       type: null,
       default: '123'// 默认展示百分比
+    },
+    topSuffix: {
+      // top后缀
+      type: String,
+      default: ''
+    },
+    btmSuffix: {
+      // btm后缀
+      type: String,
+      default: ''
+    },
+    textInsideColor: {
+      // 文字颜色
+      type: String,
+      default: ''
     }
   },
   computed: {
     // 竖向height
     innerStyle() {
     // 计算属性调用其他计算属性，必须加this关键字，否则找不到
-      return { height: 200 * (parseInt(this.percentage) / 100) + 'px', backgroundColor: this.pColor }
+      console.log(this.textInsideColor)
+      return { height: 150 * (parseInt(this.percentage) / 100) + 'px', backgroundColor: this.pColor }
     }
   },
   watch: {
@@ -87,7 +102,7 @@ export default {
 .progress-outer {
     position:relative;
     margin: 5px auto;
-    height:200px;
+    height:150px;
     background-color:#e5e5e5;
 }
 .progress-inner {
